@@ -11,15 +11,17 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.Toast;
 
 import java.util.ArrayList;
 import java.util.Arrays;
 
 import bt.unicamp.ft.m183711_v188110.vista_me.fragments.ProductsFragment;
-import bt.unicamp.ft.m183711_v188110.vista_me.interfaces.FragmendManagerActivity;
+import bt.unicamp.ft.m183711_v188110.vista_me.interfaces.BuyItemEventListener;
+import bt.unicamp.ft.m183711_v188110.vista_me.interfaces.FragmentManagerActivity;
 
 public class MainActivity extends AppCompatActivity
-        implements NavigationView.OnNavigationItemSelectedListener, FragmendManagerActivity {
+        implements NavigationView.OnNavigationItemSelectedListener, FragmentManagerActivity,BuyItemEventListener {
 
 
     private android.support.v4.app.FragmentManager fragmentManager;
@@ -43,7 +45,7 @@ public class MainActivity extends AppCompatActivity
         navigationView.setNavigationItemSelectedListener(this);
 
         fragmentManager = getSupportFragmentManager();
-        productsFragment = new ProductsFragment(new ArrayList(Arrays.asList(Products.products)));
+        productsFragment = new ProductsFragment(new ArrayList(Arrays.asList(Products.products)),this,this);
         OpenFragment(productsFragment,"Products",false);
     }
 
@@ -111,6 +113,13 @@ public class MainActivity extends AppCompatActivity
         if(addToBackStack)
             ftrans.addToBackStack(tag);
         ftrans.commit();
+    }
+
+    @Override
+    public void BuyItem(Object obj) {
+        Product p = (Product) obj;
+
+        Toast.makeText(getApplicationContext(),"O produto '"+p.getNome()+"' foi adicionado ao carrinho!", Toast.LENGTH_SHORT).show();
     }
 }
 
