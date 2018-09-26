@@ -10,4 +10,7 @@
     <string name="to_hint">Destinatários</string>
     <string name="message">Escreva a Mensagem Aqui</string>
     <string name="send">Enviar</string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
 </resources>

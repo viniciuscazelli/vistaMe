@@ -1,11 +1,8 @@
 package bt.unicamp.ft.m183711_v188110.vista_me;
 
 import android.os.Bundle;
-import android.app.FragmentManager;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
@@ -18,33 +15,23 @@ import android.view.MenuItem;
 import java.util.ArrayList;
 import java.util.Arrays;
 
-public class MainActivity extends AppCompatActivity
-        implements NavigationView.OnNavigationItemSelectedListener {
+import bt.unicamp.ft.m183711_v188110.vista_me.fragments.ProductsFragment;
+import bt.unicamp.ft.m183711_v188110.vista_me.interfaces.FragmendManagerActivity;
 
-    private RecyclerView mRecyclerView;
-    private myFirstAdapter mAdapter;
-    private ArrayList<Product> list;
+public class MainActivity extends AppCompatActivity
+        implements NavigationView.OnNavigationItemSelectedListener, FragmendManagerActivity {
+
+
     private android.support.v4.app.FragmentManager fragmentManager;
-    private ListProducts fragmentListProduct;
+    private ProductsFragment productsFragment;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
         setContentView(R.layout.activity_main);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-
-
-        mRecyclerView = this.findViewById(R.id.mRecyclerView);
-
-        mRecyclerView.setHasFixedSize(true);
-        mRecyclerView.setLayoutManager(new LinearLayoutManager(this));
-
-        list =  new ArrayList(Arrays.asList(Products.products));
-
-        mAdapter = new myFirstAdapter(list);
-        mRecyclerView.setAdapter(mAdapter);
-        mAdapter.notifyDataSetChanged();
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
@@ -56,7 +43,8 @@ public class MainActivity extends AppCompatActivity
         navigationView.setNavigationItemSelectedListener(this);
 
         fragmentManager = getSupportFragmentManager();
-        fragmentListProduct = new ListProducts();
+        productsFragment = new ProductsFragment(new ArrayList(Arrays.asList(Products.products)));
+        OpenFragment(productsFragment,"Products",false);
     }
 
     @Override
@@ -116,12 +104,13 @@ public class MainActivity extends AppCompatActivity
         return true;
     }
 
-    public void replaceFragment(Fragment fragment, String tag){
-        FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-        fragmentTransaction.add(R.id.frame, fragment, tag);
-        fragmentTransaction.commit();
+    @Override
+    public void OpenFragment(Fragment f, String tag,boolean addToBackStack) {
+        FragmentTransaction ftrans = fragmentManager.beginTransaction();
+        ftrans.replace(R.id.frame, f, tag);
+        if(addToBackStack)
+            ftrans.addToBackStack(tag);
+        ftrans.commit();
     }
-
-
 }
 
