@@ -1,4 +1,4 @@
-package bt.unicamp.ft.m183711_v188110.vista_me;
+package bt.unicamp.ft.m183711_v188110.vista_me.entities;
 
 public class Product {
     private String nome;

@@ -4,4 +4,5 @@
     <color name="colorPrimaryDark">#000</color>
     <color name="colorAccent">#333</color>
     <color name="colorDivider">#ddd</color>
+    <color name="warn">#f44</color>
 </resources>

@@ -12,7 +12,7 @@ import android.view.ViewGroup;
 
 import java.util.ArrayList;
 
-import bt.unicamp.ft.m183711_v188110.vista_me.Product;
+import bt.unicamp.ft.m183711_v188110.vista_me.entities.Product;
 import bt.unicamp.ft.m183711_v188110.vista_me.R;
 import bt.unicamp.ft.m183711_v188110.vista_me.interfaces.BuyItemEventListener;
 import bt.unicamp.ft.m183711_v188110.vista_me.interfaces.FragmentManagerActivity;

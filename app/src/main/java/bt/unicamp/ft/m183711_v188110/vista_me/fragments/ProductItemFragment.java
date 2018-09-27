@@ -11,7 +11,7 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import bt.unicamp.ft.m183711_v188110.vista_me.Product;
+import bt.unicamp.ft.m183711_v188110.vista_me.entities.Product;
 import bt.unicamp.ft.m183711_v188110.vista_me.R;
 import bt.unicamp.ft.m183711_v188110.vista_me.interfaces.BuyItemEventListener;
 import bt.unicamp.ft.m183711_v188110.vista_me.interfaces.FragmentManagerActivity;

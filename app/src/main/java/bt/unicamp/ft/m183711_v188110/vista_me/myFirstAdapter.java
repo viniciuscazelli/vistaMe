@@ -11,6 +11,7 @@ import android.widget.TextView;
 
 import java.util.ArrayList;
 
+import bt.unicamp.ft.m183711_v188110.vista_me.entities.Product;
 import bt.unicamp.ft.m183711_v188110.vista_me.interfaces.MyOnItemClickListener;
 import bt.unicamp.ft.m183711_v188110.vista_me.interfaces.MyOnLongItemClickListener;
 

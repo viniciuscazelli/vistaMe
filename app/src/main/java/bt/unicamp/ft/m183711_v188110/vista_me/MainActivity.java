@@ -11,21 +11,33 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.WindowManager;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.Toast;
 
 import java.util.ArrayList;
 import java.util.Arrays;
 
+import bt.unicamp.ft.m183711_v188110.vista_me.entities.Product;
+import bt.unicamp.ft.m183711_v188110.vista_me.fragments.LoginFragment;
 import bt.unicamp.ft.m183711_v188110.vista_me.fragments.ProductsFragment;
+import bt.unicamp.ft.m183711_v188110.vista_me.fragments.RegisterFragment;
 import bt.unicamp.ft.m183711_v188110.vista_me.interfaces.BuyItemEventListener;
 import bt.unicamp.ft.m183711_v188110.vista_me.interfaces.FragmentManagerActivity;
+import bt.unicamp.ft.m183711_v188110.vista_me.interfaces.LoginListener;
 
 public class MainActivity extends AppCompatActivity
-        implements NavigationView.OnNavigationItemSelectedListener, FragmentManagerActivity,BuyItemEventListener {
+        implements NavigationView.OnNavigationItemSelectedListener, FragmentManagerActivity,
+        BuyItemEventListener,LoginListener {
 
 
     private android.support.v4.app.FragmentManager fragmentManager;
     private ProductsFragment productsFragment;
+    private Login login;
+    private MenuItem loginButton;
+    private MenuItem registerButton;
+    private MenuItem myOrderButton;
+    private MenuItem loggoutButton;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -47,6 +59,13 @@ public class MainActivity extends AppCompatActivity
         fragmentManager = getSupportFragmentManager();
         productsFragment = new ProductsFragment(new ArrayList(Arrays.asList(Products.products)),this,this);
         OpenFragment(productsFragment,"Products",false);
+
+        loginButton = navigationView.getMenu().findItem(R.id.login);
+        registerButton = navigationView.getMenu().findItem(R.id.register);
+        myOrderButton = navigationView.getMenu().findItem(R.id.myOrders);
+        loggoutButton = navigationView.getMenu().findItem(R.id.loggout);
+        login = new Login(this);
+        changeLoginStatus();
     }
 
     @Override
@@ -95,10 +114,19 @@ public class MainActivity extends AppCompatActivity
 
         } else if (id == R.id.nav_manage) {
 
-        } else if (id == R.id.nav_share) {
+        } else if (id == R.id.login) {
 
-        } else if (id == R.id.nav_send) {
+            LoginFragment loginFragment = new LoginFragment(login,this);
+            OpenFragment(loginFragment,"Login",true);
 
+        } else if (id == R.id.register) {
+            RegisterFragment registerFragment = new RegisterFragment(login,this);
+            OpenFragment(registerFragment,"register",true);
+        } else if (id == R.id.myOrders) {
+
+        }else if (id == R.id.loggout){
+            if(login != null)
+            login.loggout();
         }
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
@@ -116,10 +144,29 @@ public class MainActivity extends AppCompatActivity
     }
 
     @Override
+    public void RemoveFragment(Fragment f) {
+        FragmentTransaction trans = fragmentManager.beginTransaction();
+        trans.remove(f);
+        trans.commit();
+        fragmentManager.popBackStack();
+
+        getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN);
+    }
+
+
+    @Override
     public void BuyItem(Object obj) {
         Product p = (Product) obj;
 
         Toast.makeText(getApplicationContext(),"O produto '"+p.getNome()+"' foi adicionado ao carrinho!", Toast.LENGTH_SHORT).show();
+    }
+
+    @Override
+    public void changeLoginStatus() {
+        loginButton.setVisible(!login.isLogged());
+        registerButton.setVisible(!login.isLogged());
+        myOrderButton.setVisible(login.isLogged());
+        loggoutButton.setVisible(login.isLogged());
     }
 }
 

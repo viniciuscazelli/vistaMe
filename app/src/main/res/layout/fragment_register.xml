@@ -1,0 +1,242 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/scroll"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+<LinearLayout android:layout_height="wrap_content"
+    android:layout_width="match_parent"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:orientation="vertical"
+    android:layout_margin="20dp">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_margin="10dp">
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="1dp"
+            android:background="@color/colorDivider"
+            android:layout_marginTop="10dp"
+            ></LinearLayout>
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:gravity="center_horizontal"
+            android:layout_gravity="fill">
+            <TextView
+                android:text="Dados pessoais"
+                android:textStyle="bold"
+                android:layout_height="wrap_content"
+                android:layout_width="wrap_content" />
+        </LinearLayout>
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="1dp"
+            android:background="@color/colorDivider"
+            android:layout_marginTop="10dp"
+            ></LinearLayout>
+    </LinearLayout>
+
+    <EditText
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="Nome"
+        android:inputType="text"
+        android:id="@+id/name"
+        android:layout_marginTop="20dp"
+        android:layout_marginBottom="10dp"
+        />
+
+    <EditText
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="Sobrenome"
+        android:inputType="text"
+        android:id="@+id/lastname"
+        android:layout_marginBottom="10dp"
+        />
+
+
+    <EditText
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="CPF"
+        android:inputType="text"
+        android:id="@+id/CPF"
+        android:layout_marginBottom="10dp"
+        />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_margin="10dp">
+        <LinearLayout
+
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="1dp"
+            android:background="@color/colorDivider"
+            android:layout_marginTop="20dp"
+            ></LinearLayout>
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:gravity="center_horizontal"
+            android:layout_gravity="fill">
+            <TextView
+                android:text="Endereço"
+                android:textStyle="bold"
+                android:layout_height="wrap_content"
+                android:layout_width="wrap_content" />
+        </LinearLayout>
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="1dp"
+            android:background="@color/colorDivider"
+            android:layout_marginTop="10dp"
+            ></LinearLayout>
+    </LinearLayout>
+
+    <EditText
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="Endereço"
+        android:inputType="text"
+        android:id="@+id/address"
+        android:layout_marginTop="20dp"
+        />
+
+    <EditText
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="Número"
+        android:inputType="text"
+        android:id="@+id/number"
+        android:layout_marginBottom="10dp"
+        />
+
+    <EditText
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="Bairro"
+        android:inputType="text"
+        android:id="@+id/distric"
+        android:layout_marginBottom="10dp"
+        />
+
+    <EditText
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="Cidade"
+        android:inputType="text"
+        android:id="@+id/city"
+        android:layout_marginBottom="10dp"
+        />
+
+    <Spinner
+        android:id="@+id/country"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:entries="@array/estados"
+        android:layout_marginTop="10dp"
+        android:layout_marginBottom="10dp"/>
+
+    <EditText
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="CEP"
+        android:inputType="text"
+        android:id="@+id/CEP"
+        android:layout_marginBottom="10dp"
+        />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_margin="10dp">
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="1dp"
+            android:background="@color/colorDivider"
+            android:layout_marginTop="20dp"
+            ></LinearLayout>
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:gravity="center_horizontal"
+            android:layout_gravity="fill">
+            <TextView
+                android:text="Dados de login"
+                android:textStyle="bold"
+                android:layout_height="wrap_content"
+                android:layout_width="wrap_content" />
+        </LinearLayout>
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="1dp"
+            android:background="@color/colorDivider"
+            android:layout_marginTop="10dp"
+            ></LinearLayout>
+    </LinearLayout>
+
+    <EditText
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="Usuário"
+        android:inputType="text"
+        android:id="@+id/username"
+        android:layout_marginTop="20dp"
+        android:layout_marginBottom="10dp"
+        />
+
+    <EditText
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="Senha"
+        android:inputType="textPassword"
+        android:id="@+id/password"
+        android:layout_marginTop="20dp"
+        />
+
+    <EditText
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="Confirme a senha"
+        android:inputType="textPassword"
+        android:id="@+id/passwordConfirm"
+        android:layout_marginBottom="10dp"
+        />
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/message"
+        android:textColor="@color/warn"/>
+
+    <Button
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Cadastrar-se"
+        android:id="@+id/registerButton"
+        android:layout_marginBottom="40dp"/>
+
+</LinearLayout>
+</ScrollView>

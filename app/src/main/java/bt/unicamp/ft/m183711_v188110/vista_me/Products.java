@@ -1,13 +1,8 @@
 package bt.unicamp.ft.m183711_v188110.vista_me;
 
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
-import android.graphics.drawable.Drawable;
+import bt.unicamp.ft.m183711_v188110.vista_me.entities.Product;
 
-import java.io.InputStream;
-import java.net.URL;
-
- public class Products {
+public class Products {
 
      static Product[] products= {
              new Product("CAMISETA DOUBLE- G RED BOX PATTERN","O tecido jérsei de algodão Pima macio e de alta qualidade, em uma variedade de cores para escolher, dá um toque irresistível a esta camiseta. Adicione esta peça versátil à sua coleção de itens que nunca saem de moda.\n\nJérsei de algodão Pima\nGola redonda\nRegular fit\nMarca do crocodilo em transfer e forro na orla da gola\nMarca do crocodilo bordada no peito, na cor verde\nAlgodão (100%)",R.drawable.teste ,100,10),
