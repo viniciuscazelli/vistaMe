@@ -37,4 +37,12 @@
         android:text="Entrar"
         android:id="@+id/loginButton"/>
 
+    <Button
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Registrar-se"
+        android:background="@color/colorPrimary"
+        android:stateListAnimator="@null"
+        android:id="@+id/registerButton"/>
+
 </LinearLayout>

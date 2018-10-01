@@ -16,7 +16,7 @@ public class Login {
         if(Username.equals("FT") && Password.equals("12345")){
             this.user = new User(1,"Faculdade","Tecnologia","00000000000",
                     "R. Paschoal Marmo","1888","Jardim Sao Paulo","Limeira","São Paulo","13484-332",
-                    "FT","12345",null,null);
+                    "FT","12345",null,null, "Masculino");
             if(loginListener != null)
                 loginListener.changeLoginStatus();
             return true;
@@ -25,20 +25,25 @@ public class Login {
         }
     }
 
-    public String register(String name, String lastname,String CPF,String address,String number,
-                           String distric,String city,String country,String CEP,String username,
-                           String password,String passwordConfirm){
+    public User getUser() {
+        return user;
+    }
+
+    public String register(String name, String lastname, String CPF, String address, String number,
+                           String distric, String city, String country, String CEP, String username,
+                           String password, String passwordConfirm, String sexo){
         if(isLogged()){
             return "Não é possivel se registar pois um usuário esta logado no momento neste dispositivo.";
-        }else if(name.isEmpty() || lastname.isEmpty() || CPF.isEmpty() || address.isEmpty() &&
-                number.isEmpty() || distric.isEmpty()|| city.isEmpty()|| country.isEmpty()&&
-                CEP.isEmpty()|| username.isEmpty()|| password.isEmpty() || passwordConfirm.isEmpty()){
+        }else if(name.isEmpty() || lastname.isEmpty() || CPF.isEmpty() || address.isEmpty() ||
+                number.isEmpty() || distric.isEmpty()|| city.isEmpty()|| country.isEmpty() ||
+                CEP.isEmpty()|| username.isEmpty()|| password.isEmpty() || passwordConfirm.isEmpty()||
+                sexo.isEmpty()){
             return "Preencha os campos corretamente";
         }else if(!password.equals(passwordConfirm)){
             return "As senhas não conferem";
         }
 
-            user = new User(-1,name,lastname,CPF,address,number,distric,city,country,CEP,username,password,null,null);
+            user = new User(-1,name,lastname,CPF,address,number,distric,city,country,CEP,username,password,null,null,"Masculino");
             return "";
 
 

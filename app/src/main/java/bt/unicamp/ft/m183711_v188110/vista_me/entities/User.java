@@ -18,7 +18,14 @@ public class User {
     private String username;
     private String password;
 
-    public User(int id, String name, String lastname, String CPF, String address, String number, String distric, String city, String country, String CEP, String username, String password, ArrayList<Card> cards, ArrayList<Contact> contacts) {
+    private String sexo;
+
+    private ArrayList<Card> cards;
+    private ArrayList<Contact> contacts;
+    private ArrayList<Order> orders;
+
+
+    public User(int id, String name, String lastname, String CPF, String address, String number, String distric, String city, String country, String CEP, String username, String password, ArrayList<Card> cards, ArrayList<Contact> contacts, String sexo) {
         this.id = id;
         this.name = name;
         this.lastname = lastname;
@@ -33,6 +40,15 @@ public class User {
         this.password = password;
         this.cards = cards;
         this.contacts = contacts;
+        this.sexo = sexo;
+    }
+
+    public String getSexo() {
+        return sexo;
+    }
+
+    public void setSexo(String sexo) {
+        this.sexo = sexo;
     }
 
     public String getNumber() {
@@ -68,9 +84,12 @@ public class User {
         this.password = password;
     }
 
+    public void addOrder(Order order){
+        if(getOrders() == null)
+            setOrders(new ArrayList<Order>());
 
-
-    private ArrayList<Card> cards;
+        getOrders().add(order);
+    }
 
     public int getId() {
         return id;
@@ -152,6 +171,12 @@ public class User {
         this.contacts = contacts;
     }
 
-    private ArrayList<Contact> contacts;
+    public ArrayList<Order> getOrders() {
+        return orders;
+    }
+
+    public void setOrders(ArrayList<Order> orders) {
+        this.orders = orders;
+    }
 
 }

@@ -11,6 +11,8 @@ import android.view.ViewGroup;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.RadioButton;
+import android.widget.RadioGroup;
 import android.widget.Spinner;
 import android.widget.TextView;
 
@@ -40,6 +42,9 @@ public class RegisterFragment extends Fragment implements View.OnClickListener {
     private Spinner country;
     private TextView message;
     private Button registerButton;
+    private Button loginButton;
+    private RadioGroup groupSexo;
+    private Fragment nextFragment;
 
     private FragmentManagerActivity fragmentManagerActivity;
 
@@ -47,8 +52,15 @@ public class RegisterFragment extends Fragment implements View.OnClickListener {
     public RegisterFragment(Login login, FragmentManagerActivity fragmentManagerActivity) {
         this.login = login;
         this.fragmentManagerActivity = fragmentManagerActivity;
+        this.nextFragment= null;
     }
 
+    @SuppressLint("ValidFragment")
+    public RegisterFragment(Login login, FragmentManagerActivity fragmentManagerActivity,Fragment nextFragment) {
+        this.login = login;
+        this.fragmentManagerActivity = fragmentManagerActivity;
+        this.nextFragment = nextFragment;
+    }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -69,14 +81,26 @@ public class RegisterFragment extends Fragment implements View.OnClickListener {
         passwordConfirm= fragment.findViewById(R.id.passwordConfirm);
         message= fragment.findViewById(R.id.message);
         registerButton= fragment.findViewById(R.id.registerButton);
+        loginButton= fragment.findViewById(R.id.loginButton);
+        groupSexo = fragment.findViewById(R.id.groupSexo);
 
         registerButton.setOnClickListener(this);
-
+        loginButton.setOnClickListener(this);
         return fragment;
     }
 
     @Override
     public void onClick(View v) {
+
+        if(v.getId() == R.id.loginButton)
+        {
+            fragmentManagerActivity.RemoveFragment(this);
+            LoginFragment loginFragment = new LoginFragment(login,fragmentManagerActivity,nextFragment);
+            fragmentManagerActivity.OpenFragment(loginFragment,"login",true);
+
+        }
+
+
         View view = getActivity().getCurrentFocus();
         if (view != null) {
             InputMethodManager imm = (InputMethodManager)getActivity().getSystemService(Context.INPUT_METHOD_SERVICE);
@@ -95,11 +119,14 @@ public class RegisterFragment extends Fragment implements View.OnClickListener {
                 CEP.getText().toString(),
                 username.getText().toString(),
                 password.getText().toString(),
-                passwordConfirm.getText().toString()
+                passwordConfirm.getText().toString(),
+                ((RadioButton)fragment.findViewById(groupSexo.getCheckedRadioButtonId())).getText().toString()
                 );
 
         if(r.isEmpty()){
             fragmentManagerActivity.RemoveFragment(this);
+            if(nextFragment != null)
+                fragmentManagerActivity.OpenFragment(nextFragment,"redirectFragment",true);
         }else{
             message.setText(r);
         }

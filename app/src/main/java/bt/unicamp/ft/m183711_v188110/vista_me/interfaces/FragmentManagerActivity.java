@@ -5,4 +5,5 @@ import android.support.v4.app.Fragment;
 public interface FragmentManagerActivity {
     public void OpenFragment(Fragment f, String tag,boolean addToBackStack);
     public void RemoveFragment(Fragment f);
+    public void BackToFirstFragment();
 }

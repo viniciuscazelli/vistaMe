@@ -1,7 +1,9 @@
 package bt.unicamp.ft.m183711_v188110.vista_me;
 
+import android.annotation.SuppressLint;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
@@ -17,8 +19,12 @@ import android.widget.Toast;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.List;
+import java.util.stream.Collectors;
 
 import bt.unicamp.ft.m183711_v188110.vista_me.entities.Product;
+import bt.unicamp.ft.m183711_v188110.vista_me.enumerations.e_Sexo;
+import bt.unicamp.ft.m183711_v188110.vista_me.fragments.CartFragment;
 import bt.unicamp.ft.m183711_v188110.vista_me.fragments.LoginFragment;
 import bt.unicamp.ft.m183711_v188110.vista_me.fragments.ProductsFragment;
 import bt.unicamp.ft.m183711_v188110.vista_me.fragments.RegisterFragment;
@@ -38,6 +44,7 @@ public class MainActivity extends AppCompatActivity
     private MenuItem registerButton;
     private MenuItem myOrderButton;
     private MenuItem loggoutButton;
+    private Cart cart;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -64,8 +71,11 @@ public class MainActivity extends AppCompatActivity
         registerButton = navigationView.getMenu().findItem(R.id.register);
         myOrderButton = navigationView.getMenu().findItem(R.id.myOrders);
         loggoutButton = navigationView.getMenu().findItem(R.id.loggout);
+
         login = new Login(this);
         changeLoginStatus();
+
+        cart = new Cart();
     }
 
     @Override
@@ -94,27 +104,34 @@ public class MainActivity extends AppCompatActivity
 
         //noinspection SimplifiableIfStatement
         if (id == R.id.action_settings) {
-            return true;
+            CartFragment cartFragment = new CartFragment(cart,this,login);
+            OpenFragment(cartFragment,"cart",true);
         }
 
         return super.onOptionsItemSelected(item);
     }
 
+    @SuppressLint("NewApi")
     @SuppressWarnings("StatementWithEmptyBody")
     @Override
     public boolean onNavigationItemSelected(MenuItem item) {
         // Handle navigation view item clicks here.
         int id = item.getItemId();
 
-        if (id == R.id.nav_camera) {
-            // Handle the camera action
-        } else if (id == R.id.nav_gallery) {
-
-        } else if (id == R.id.nav_slideshow) {
-
-        } else if (id == R.id.nav_manage) {
-
-        } else if (id == R.id.login) {
+        if (id == R.id.female) {
+            List<Product> products = new ArrayList(Arrays.asList(Products.products));
+            products = products.stream().filter(p -> p.getSexo() == e_Sexo.feminino).collect(Collectors.toList());
+            productsFragment = new ProductsFragment(new ArrayList<Product>(products),this,this);
+            OpenFragment(productsFragment,"Products",false);
+        } else if (id == R.id.male) {
+            List<Product> products = new ArrayList(Arrays.asList(Products.products));
+            products = products.stream().filter(p -> p.getSexo() == e_Sexo.masculino).collect(Collectors.toList());
+            productsFragment = new ProductsFragment(new ArrayList<Product>(products),this,this);
+            OpenFragment(productsFragment,"Products",false);
+        } else if (id == R.id.all) {
+            productsFragment = new ProductsFragment(new ArrayList(Arrays.asList(Products.products)),this,this);
+            OpenFragment(productsFragment,"Products",false);
+        }  else if (id == R.id.login) {
 
             LoginFragment loginFragment = new LoginFragment(login,this);
             OpenFragment(loginFragment,"Login",true);
@@ -136,12 +153,24 @@ public class MainActivity extends AppCompatActivity
 
     @Override
     public void OpenFragment(Fragment f, String tag,boolean addToBackStack) {
-        FragmentTransaction ftrans = fragmentManager.beginTransaction();
-        ftrans.replace(R.id.frame, f, tag);
-        if(addToBackStack)
-            ftrans.addToBackStack(tag);
-        ftrans.commit();
+       if(!getCurrentTagFragment().equals(tag)) {
+           FragmentTransaction ftrans = fragmentManager.beginTransaction();
+           ftrans.replace(R.id.frame, f, tag);
+           if (addToBackStack)
+               ftrans.addToBackStack(tag);
+           ftrans.commit();
+       }
     }
+
+    private String getCurrentTagFragment(){
+        try {
+            return fragmentManager.getBackStackEntryAt(fragmentManager.getBackStackEntryCount() - 1).getName();
+        }catch (Exception e){
+            return "";
+        }
+
+    }
+
 
     @Override
     public void RemoveFragment(Fragment f) {
@@ -153,12 +182,16 @@ public class MainActivity extends AppCompatActivity
         getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN);
     }
 
+    @Override
+    public void BackToFirstFragment() {
+        fragmentManager.popBackStack(null, FragmentManager.POP_BACK_STACK_INCLUSIVE);
+    }
 
     @Override
     public void BuyItem(Object obj) {
         Product p = (Product) obj;
-
-        Toast.makeText(getApplicationContext(),"O produto '"+p.getNome()+"' foi adicionado ao carrinho!", Toast.LENGTH_SHORT).show();
+        cart.Add(p);
+        Toast.makeText(getApplicationContext(),"Produto adicionado ao carrinho!", Toast.LENGTH_SHORT).show();
     }
 
     @Override

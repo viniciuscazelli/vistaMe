@@ -20,16 +20,18 @@ public class myFirstAdapter extends RecyclerView.Adapter {
     private ArrayList<Product> products;
     private MyOnItemClickListener myOnItemClickListener;
     private MyOnLongItemClickListener myOnLongItemClickListener;
+    private int layoutAdapter;
 
-    public myFirstAdapter(ArrayList<Product> products) {
+    public myFirstAdapter(ArrayList<Product> products,int layoutAdapter) {
         this.products = products;
+        this.layoutAdapter = layoutAdapter;
     }
 
     @NonNull
     @Override
     public RecyclerView.ViewHolder  onCreateViewHolder(ViewGroup parent, int viewType) {
         View v = LayoutInflater.from(parent.getContext()).inflate(
-                R.layout.adapter_layout, parent, false);
+                layoutAdapter, parent, false);
         return new MyFirstViewHolder(v);
     }
 
@@ -98,7 +100,7 @@ public class myFirstAdapter extends RecyclerView.Adapter {
             imageView.setImageResource(product.getFoto());
             imageView.buildLayer();
             primaryTextView.setText(product.getNome());
-            dividerNumberTextView.setText(product.getDividerValue()+"x");
+            dividerNumberTextView.setText(String.format("%.0f",product.getDividerValue())+"x");
             dividerValueTextView.setText(" R$ "+String.format( "%.2f", product.getDividerValue() ));
             valorTextView.setText(" R$ "+String.format( "%.2f", product.getValor() ));
         }

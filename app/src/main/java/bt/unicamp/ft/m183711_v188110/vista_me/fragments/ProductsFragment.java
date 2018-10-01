@@ -52,7 +52,7 @@ public class ProductsFragment extends Fragment  implements MyOnLongItemClickList
         mRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
 
 
-        mAdapter = new myFirstAdapter(list);
+        mAdapter = new myFirstAdapter(list,R.layout.adapter_layout);
         mAdapter.setMyOnLongItemClickListener(this);
         mAdapter.setMyOnItemClickListener(this);
         mRecyclerView.setAdapter(mAdapter);

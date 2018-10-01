@@ -26,16 +26,26 @@ public class LoginFragment extends Fragment implements View.OnClickListener {
 
     private View fragment;
     private Button button;
+    private Button buttonRegister;
     private EditText username;
     private EditText password;
     private TextView error;
     private Login login;
     private FragmentManagerActivity fragmentManagerActivity;
+    private Fragment nextFragment;
+
+    public LoginFragment(Login login, FragmentManagerActivity fragmentManagerActivity,Fragment nextFragment) {
+        this.login = login;
+        this.fragmentManagerActivity = fragmentManagerActivity;
+        this.nextFragment= nextFragment;
+    }
 
     public LoginFragment(Login login, FragmentManagerActivity fragmentManagerActivity) {
         this.login = login;
         this.fragmentManagerActivity = fragmentManagerActivity;
+        this.nextFragment= null;
     }
+
 
 
     @Override
@@ -44,16 +54,26 @@ public class LoginFragment extends Fragment implements View.OnClickListener {
         fragment = inflater.inflate(R.layout.fragment_login, container, false);
 
         button = fragment.findViewById(R.id.loginButton);
+        buttonRegister = fragment.findViewById(R.id.registerButton);
         username = fragment.findViewById(R.id.username);
         password = fragment.findViewById(R.id.password);
         error = fragment.findViewById(R.id.message);
         button.setOnClickListener(this);
-
+        buttonRegister.setOnClickListener(this);
         return fragment;
     }
 
     @Override
     public void onClick(View v) {
+
+        Button b = (Button) v;
+
+        if(b.getId() == R.id.registerButton) {
+            fragmentManagerActivity.RemoveFragment(this);
+            RegisterFragment registerFragment = new RegisterFragment(login,fragmentManagerActivity);
+            fragmentManagerActivity.OpenFragment(registerFragment,"Register",true);
+            return;
+        }
 
         View view = getActivity().getCurrentFocus();
         if (view != null) {
@@ -63,6 +83,8 @@ public class LoginFragment extends Fragment implements View.OnClickListener {
 
         if(login.validLogin(username.getText().toString(),password.getText().toString())){
             fragmentManagerActivity.RemoveFragment(this);
+            if(nextFragment != null)
+                fragmentManagerActivity.OpenFragment(nextFragment,"redirectFragment",true);
         }else{
             error.setText("Usuário e/ou senha incorreto(s)");
         }
