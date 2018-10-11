@@ -18,14 +18,14 @@ import bt.unicamp.ft.m183711_v188110.vista_me.interfaces.BuyItemEventListener;
 import bt.unicamp.ft.m183711_v188110.vista_me.interfaces.FragmentManagerActivity;
 import bt.unicamp.ft.m183711_v188110.vista_me.interfaces.MyOnItemClickListener;
 import bt.unicamp.ft.m183711_v188110.vista_me.interfaces.MyOnLongItemClickListener;
-import bt.unicamp.ft.m183711_v188110.vista_me.myFirstAdapter;
+import bt.unicamp.ft.m183711_v188110.vista_me.AdapteRecyclerViewProduct;
 
 
 @SuppressLint("ValidFragment")
 public class ProductsFragment extends Fragment  implements MyOnLongItemClickListener, MyOnItemClickListener {
 
     private RecyclerView mRecyclerView;
-    private myFirstAdapter mAdapter;
+    private AdapteRecyclerViewProduct mAdapter;
     private ArrayList<Product> list;
     private View view;
     private FragmentManagerActivity fragmentManagerActivity;
@@ -52,7 +52,7 @@ public class ProductsFragment extends Fragment  implements MyOnLongItemClickList
         mRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
 
 
-        mAdapter = new myFirstAdapter(list,R.layout.adapter_layout);
+        mAdapter = new AdapteRecyclerViewProduct(list,R.layout.adapter_layout);
         mAdapter.setMyOnLongItemClickListener(this);
         mAdapter.setMyOnItemClickListener(this);
         mRecyclerView.setAdapter(mAdapter);

@@ -9,15 +9,35 @@ public class Order {
     private Card card;
     private Date date;
     private String number;
+    private String status;
+    private double frete;
 
-    public Order(ArrayList<Product> itens, int divider, Card card, Date date, String number) {
+    public Order(ArrayList<Product> itens, int divider, Card card, Date date, String number,String status, double frete) {
 
         this.itens = itens;
         this.divider = divider;
         this.card = card;
         this.date = date;
         this.number = number;
+        this.status = status;
+        this.frete = frete;
 
+    }
+
+    public double getFrete() {
+        return frete;
+    }
+
+    public void setFrete(double frete) {
+        this.frete = frete;
+    }
+
+    public String getStatus() {
+        return status;
+    }
+
+    public void setStatus(String status) {
+        this.status = status;
     }
 
     public ArrayList<Product> getItens() {
@@ -59,5 +79,17 @@ public class Order {
     public void setNumber(String number) {
         this.number = number;
     }
+
+    public double Total(){
+        double total = 0;
+        for (Product p:itens) {
+            total += p.getValor();
+        }
+
+        total += getFrete();
+        return total;
+    }
+
+
 
 }

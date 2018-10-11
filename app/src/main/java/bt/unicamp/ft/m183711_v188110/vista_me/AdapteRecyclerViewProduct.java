@@ -15,14 +15,14 @@ import bt.unicamp.ft.m183711_v188110.vista_me.entities.Product;
 import bt.unicamp.ft.m183711_v188110.vista_me.interfaces.MyOnItemClickListener;
 import bt.unicamp.ft.m183711_v188110.vista_me.interfaces.MyOnLongItemClickListener;
 
-public class myFirstAdapter extends RecyclerView.Adapter {
+public class AdapteRecyclerViewProduct extends RecyclerView.Adapter {
 
     private ArrayList<Product> products;
     private MyOnItemClickListener myOnItemClickListener;
     private MyOnLongItemClickListener myOnLongItemClickListener;
     private int layoutAdapter;
 
-    public myFirstAdapter(ArrayList<Product> products,int layoutAdapter) {
+    public AdapteRecyclerViewProduct(ArrayList<Product> products, int layoutAdapter) {
         this.products = products;
         this.layoutAdapter = layoutAdapter;
     }

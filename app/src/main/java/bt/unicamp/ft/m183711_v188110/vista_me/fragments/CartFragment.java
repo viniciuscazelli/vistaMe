@@ -21,11 +21,10 @@ import bt.unicamp.ft.m183711_v188110.vista_me.Cart;
 import bt.unicamp.ft.m183711_v188110.vista_me.Login;
 import bt.unicamp.ft.m183711_v188110.vista_me.R;
 import bt.unicamp.ft.m183711_v188110.vista_me.entities.Product;
-import bt.unicamp.ft.m183711_v188110.vista_me.entities.User;
 import bt.unicamp.ft.m183711_v188110.vista_me.interfaces.CartNotificChangeListProducts;
 import bt.unicamp.ft.m183711_v188110.vista_me.interfaces.FragmentManagerActivity;
 import bt.unicamp.ft.m183711_v188110.vista_me.interfaces.MyOnLongItemClickListener;
-import bt.unicamp.ft.m183711_v188110.vista_me.myFirstAdapter;
+import bt.unicamp.ft.m183711_v188110.vista_me.AdapteRecyclerViewProduct;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -36,7 +35,7 @@ public class CartFragment extends Fragment implements CartNotificChangeListProdu
     private Cart cart;
     private Login login;
     private RecyclerView mRecyclerView;
-    private myFirstAdapter mAdapter;
+    private AdapteRecyclerViewProduct mAdapter;
     private FragmentManagerActivity fragmentManagerActivity;
     private TextView total;
     private View fragment;
@@ -58,7 +57,7 @@ public class CartFragment extends Fragment implements CartNotificChangeListProdu
         mRecyclerView.setHasFixedSize(true);
         mRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
 
-        mAdapter = new myFirstAdapter(cart.itens,R.layout.adapter_layout_cart);
+        mAdapter = new AdapteRecyclerViewProduct(cart.itens,R.layout.adapter_layout_cart);
 
         mAdapter.setMyOnLongItemClickListener(this);
         cart.setCartNotificChangeListProducts(this);

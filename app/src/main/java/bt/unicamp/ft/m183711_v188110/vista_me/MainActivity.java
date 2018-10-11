@@ -26,6 +26,7 @@ import bt.unicamp.ft.m183711_v188110.vista_me.entities.Product;
 import bt.unicamp.ft.m183711_v188110.vista_me.enumerations.e_Sexo;
 import bt.unicamp.ft.m183711_v188110.vista_me.fragments.CartFragment;
 import bt.unicamp.ft.m183711_v188110.vista_me.fragments.LoginFragment;
+import bt.unicamp.ft.m183711_v188110.vista_me.fragments.OrdersFragment;
 import bt.unicamp.ft.m183711_v188110.vista_me.fragments.ProductsFragment;
 import bt.unicamp.ft.m183711_v188110.vista_me.fragments.RegisterFragment;
 import bt.unicamp.ft.m183711_v188110.vista_me.interfaces.BuyItemEventListener;
@@ -119,14 +120,10 @@ public class MainActivity extends AppCompatActivity
         int id = item.getItemId();
 
         if (id == R.id.female) {
-            List<Product> products = new ArrayList(Arrays.asList(Products.products));
-            products = products.stream().filter(p -> p.getSexo() == e_Sexo.feminino).collect(Collectors.toList());
-            productsFragment = new ProductsFragment(new ArrayList<Product>(products),this,this);
+            productsFragment = new ProductsFragment(getProductsBySexo(e_Sexo.feminino),this,this);
             OpenFragment(productsFragment,"Products",false);
         } else if (id == R.id.male) {
-            List<Product> products = new ArrayList(Arrays.asList(Products.products));
-            products = products.stream().filter(p -> p.getSexo() == e_Sexo.masculino).collect(Collectors.toList());
-            productsFragment = new ProductsFragment(new ArrayList<Product>(products),this,this);
+            productsFragment = new ProductsFragment(getProductsBySexo(e_Sexo.masculino),this,this);
             OpenFragment(productsFragment,"Products",false);
         } else if (id == R.id.all) {
             productsFragment = new ProductsFragment(new ArrayList(Arrays.asList(Products.products)),this,this);
@@ -140,7 +137,8 @@ public class MainActivity extends AppCompatActivity
             RegisterFragment registerFragment = new RegisterFragment(login,this);
             OpenFragment(registerFragment,"register",true);
         } else if (id == R.id.myOrders) {
-
+            OrdersFragment ordersFragment = new OrdersFragment(this,login);
+            OpenFragment(ordersFragment,"register",true);
         }else if (id == R.id.loggout){
             if(login != null)
             login.loggout();
@@ -160,6 +158,17 @@ public class MainActivity extends AppCompatActivity
                ftrans.addToBackStack(tag);
            ftrans.commit();
        }
+    }
+
+    private ArrayList<Product> getProductsBySexo(e_Sexo sexo){
+        ArrayList<Product> p = new ArrayList<>();
+
+        for(Product prod : Products.products){
+            if(prod.getSexo() == sexo)
+                p.add(prod);
+        }
+
+        return p;
     }
 
     private String getCurrentTagFragment(){

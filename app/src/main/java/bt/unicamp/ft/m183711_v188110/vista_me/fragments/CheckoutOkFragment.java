@@ -54,7 +54,7 @@ public class CheckoutOkFragment extends Fragment {
                         fragmentManagerActivity.BackToFirstFragment();
 
                     }
-                }, 7000);
+                }, 5000);
 
         return fragment;
     }

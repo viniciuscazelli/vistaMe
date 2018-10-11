@@ -29,6 +29,7 @@ import bt.unicamp.ft.m183711_v188110.vista_me.Products;
 import bt.unicamp.ft.m183711_v188110.vista_me.R;
 import bt.unicamp.ft.m183711_v188110.vista_me.entities.Card;
 import bt.unicamp.ft.m183711_v188110.vista_me.entities.Order;
+import bt.unicamp.ft.m183711_v188110.vista_me.entities.Product;
 import bt.unicamp.ft.m183711_v188110.vista_me.entities.User;
 import bt.unicamp.ft.m183711_v188110.vista_me.interfaces.FragmentManagerActivity;
 
@@ -179,9 +180,13 @@ public class CheckoutFragment extends Fragment implements RadioGroup.OnCheckedCh
         }else {
             Random rand = new Random();
 
-            Order order = new Order(cart.itens, dividerSelected, cardSelected, new Date(), String.format("%08d", rand.nextInt()));
+
+
+            Order order = new Order(cart.itens, dividerSelected, cardSelected, new Date(), String.format("%08d",rand.nextInt(99999999)),"Em aprovação",cart.Frete());
 
             login.getUser().addOrder(order);
+
+            cart.itens = new ArrayList<Product>();
 
             CheckoutOkFragment checkoutOkFragment = new CheckoutOkFragment(fragmentManagerActivity, order.getNumber());
 
