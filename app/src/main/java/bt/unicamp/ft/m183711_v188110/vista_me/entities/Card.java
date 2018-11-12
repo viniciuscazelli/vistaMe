@@ -9,6 +9,8 @@ public class Card {
     private int month;
     private int year;
 
+    public Card (){}
+
     public Card(String number, String nameHolder, String documentNumber, int month, int year) {
         Number = number;
         NameHolder = nameHolder;
@@ -102,4 +104,19 @@ public class Card {
         return (sum % 10 == 0);
     }
 
+    public int getMonth() {
+        return month;
+    }
+
+    public void setMonth(int month) {
+        this.month = month;
+    }
+
+    public int getYear() {
+        return year;
+    }
+
+    public void setYear(int year) {
+        this.year = year;
+    }
 }

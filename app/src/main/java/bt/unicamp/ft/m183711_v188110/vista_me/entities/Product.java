@@ -1,16 +1,25 @@
 package bt.unicamp.ft.m183711_v188110.vista_me.entities;
 
+import android.graphics.Bitmap;
+
 import bt.unicamp.ft.m183711_v188110.vista_me.enumerations.e_Sexo;
 
 public class Product {
+    private String id;
     private String nome;
     private String descricao;
-    private int foto ;
+    private Bitmap foto ;
+    private String url;
     private double valor;
     private int maxDivider;
     private e_Sexo sexo;
 
-    public Product(String nome, String descricao, int foto, double valor, int maxDivider,e_Sexo sexo) {
+    public Product(String id) {
+        this.id = id;
+    }
+
+    public Product(String id, String nome, String descricao, Bitmap foto, double valor, int maxDivider, e_Sexo sexo) {
+        this.id = id;
         this.nome = nome;
         this.descricao = descricao;
         this.foto = foto;
@@ -35,11 +44,11 @@ public class Product {
         this.descricao = descricao;
     }
 
-    public int getFoto() {
+    public Bitmap getFoto() {
         return foto;
     }
 
-    public void setFoto(int foto) {
+    public void setFoto(Bitmap foto) {
         this.foto = foto;
     }
 
@@ -69,5 +78,21 @@ public class Product {
 
     public double getDividerValue(){
         return getValor()/getMaxDivider();
+    }
+
+    public String getId() {
+        return id;
+    }
+
+    public void setId(String id) {
+        this.id = id;
+    }
+
+    public String getUrl() {
+        return url;
+    }
+
+    public void setUrl(String url) {
+        this.url = url;
     }
 }

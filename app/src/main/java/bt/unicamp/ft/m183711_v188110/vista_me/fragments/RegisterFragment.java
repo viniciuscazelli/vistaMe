@@ -18,6 +18,7 @@ import android.widget.TextView;
 
 import bt.unicamp.ft.m183711_v188110.vista_me.Login;
 import bt.unicamp.ft.m183711_v188110.vista_me.R;
+import bt.unicamp.ft.m183711_v188110.vista_me.interfaces.DbExecuteWithReturn;
 import bt.unicamp.ft.m183711_v188110.vista_me.interfaces.FragmentManagerActivity;
 
 /**
@@ -45,6 +46,8 @@ public class RegisterFragment extends Fragment implements View.OnClickListener {
     private Button loginButton;
     private RadioGroup groupSexo;
     private Fragment nextFragment;
+    private Fragment thisFragment = this;
+
 
     private FragmentManagerActivity fragmentManagerActivity;
 
@@ -107,7 +110,7 @@ public class RegisterFragment extends Fragment implements View.OnClickListener {
             imm.hideSoftInputFromWindow(view.getWindowToken(), 0);
         }
 
-        String r = login.register(
+        login.register(
                 name.getText().toString(),
                 lastname.getText().toString(),
                 CPF.getText().toString(),
@@ -120,15 +123,24 @@ public class RegisterFragment extends Fragment implements View.OnClickListener {
                 username.getText().toString(),
                 password.getText().toString(),
                 passwordConfirm.getText().toString(),
-                ((RadioButton)fragment.findViewById(groupSexo.getCheckedRadioButtonId())).getText().toString()
-                );
+                ((RadioButton) fragment.findViewById(groupSexo.getCheckedRadioButtonId())).getText().toString(),
+                new DbExecuteWithReturn() {
+                    @Override
+                    public void onReturn(Object obj) {
 
-        if(r.isEmpty()){
-            fragmentManagerActivity.RemoveFragment(this);
-            if(nextFragment != null)
-                fragmentManagerActivity.OpenFragment(nextFragment,"redirectFragment",true);
-        }else{
-            message.setText(r);
-        }
+                        String r = (String)obj;
+
+                        if(r.isEmpty()){
+                            fragmentManagerActivity.RemoveFragment(thisFragment);
+                            if(nextFragment != null)
+                                fragmentManagerActivity.OpenFragment(nextFragment,"redirectFragment",true);
+                        }else{
+                            message.setText(r);
+                        }
+                    }
+                }
+        );
+
+
     }
 }

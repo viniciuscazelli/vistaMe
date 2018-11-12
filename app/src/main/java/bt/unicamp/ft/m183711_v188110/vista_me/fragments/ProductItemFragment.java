@@ -2,6 +2,7 @@ package bt.unicamp.ft.m183711_v188110.vista_me.fragments;
 
 
 import android.annotation.SuppressLint;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
@@ -69,7 +70,7 @@ public class ProductItemFragment extends Fragment {
     }
 
     private void LoadData(){
-        imageView.setImageResource(product.getFoto());
+        imageView.setImageBitmap(product.getFoto());
         imageView.buildLayer();
         primaryTextView.setText(product.getNome());
         dividerNumberTextView.setText(product.getDividerValue()+"x");
@@ -77,6 +78,8 @@ public class ProductItemFragment extends Fragment {
         valorTextView.setText(" R$ "+String.format( "%.2f", product.getValor() ));
         DescriptionProductItem.setText(product.getDescricao());
     }
+
+
 
 
 }

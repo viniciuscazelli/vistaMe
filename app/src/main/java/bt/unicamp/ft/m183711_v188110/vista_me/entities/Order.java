@@ -12,6 +12,8 @@ public class Order {
     private String status;
     private double frete;
 
+    public Order(){}
+
     public Order(ArrayList<Product> itens, int divider, Card card, Date date, String number,String status, double frete) {
 
         this.itens = itens;
@@ -89,7 +91,5 @@ public class Order {
         total += getFrete();
         return total;
     }
-
-
 
 }

@@ -15,6 +15,7 @@ import android.widget.TextView;
 
 import bt.unicamp.ft.m183711_v188110.vista_me.Login;
 import bt.unicamp.ft.m183711_v188110.vista_me.R;
+import bt.unicamp.ft.m183711_v188110.vista_me.interfaces.DbExecuteWithReturn;
 import bt.unicamp.ft.m183711_v188110.vista_me.interfaces.FragmentManagerActivity;
 
 /**
@@ -33,6 +34,7 @@ public class LoginFragment extends Fragment implements View.OnClickListener {
     private Login login;
     private FragmentManagerActivity fragmentManagerActivity;
     private Fragment nextFragment;
+    private Fragment thisFragment = this;
 
     public LoginFragment(Login login, FragmentManagerActivity fragmentManagerActivity,Fragment nextFragment) {
         this.login = login;
@@ -81,12 +83,18 @@ public class LoginFragment extends Fragment implements View.OnClickListener {
             imm.hideSoftInputFromWindow(view.getWindowToken(), 0);
         }
 
-        if(login.validLogin(username.getText().toString(),password.getText().toString())){
-            fragmentManagerActivity.RemoveFragment(this);
-            if(nextFragment != null)
-                fragmentManagerActivity.OpenFragment(nextFragment,"redirectFragment",true);
-        }else{
-            error.setText("Usuário e/ou senha incorreto(s)");
-        }
+        login.validLogin(username.getText().toString(), password.getText().toString(), new DbExecuteWithReturn() {
+            @Override
+            public void onReturn(Object obj) {
+                if((boolean)obj){
+                    fragmentManagerActivity.RemoveFragment(thisFragment);
+                    if(nextFragment != null)
+                        fragmentManagerActivity.OpenFragment(nextFragment,"redirectFragment",true);
+                }else{
+                    error.setText("Usuário e/ou senha incorreto(s)");
+                }
+            }
+        });
+
     }
 }

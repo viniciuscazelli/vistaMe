@@ -3,7 +3,7 @@ package bt.unicamp.ft.m183711_v188110.vista_me.entities;
 import java.util.ArrayList;
 
 public class User {
-    private int id;
+    private String id;
     private String name;
     private String lastname;
     private String CPF;
@@ -25,7 +25,7 @@ public class User {
     private ArrayList<Order> orders;
 
 
-    public User(int id, String name, String lastname, String CPF, String address, String number, String distric, String city, String country, String CEP, String username, String password, ArrayList<Card> cards, ArrayList<Contact> contacts, String sexo) {
+    public User(String id, String name, String lastname, String CPF, String address, String number, String distric, String city, String country, String CEP, String username, String password, ArrayList<Card> cards, ArrayList<Contact> contacts, String sexo) {
         this.id = id;
         this.name = name;
         this.lastname = lastname;
@@ -91,11 +91,11 @@ public class User {
         getOrders().add(order);
     }
 
-    public int getId() {
+    public String getId() {
         return id;
     }
 
-    public void setId(int id) {
+    public void setId(String id) {
         this.id = id;
     }
 

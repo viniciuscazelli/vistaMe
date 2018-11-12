@@ -2,6 +2,7 @@ package bt.unicamp.ft.m183711_v188110.vista_me;
 
 import android.annotation.SuppressLint;
 import android.os.Bundle;
+import android.os.StrictMode;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
@@ -14,28 +15,28 @@ import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.WindowManager;
-import android.view.inputmethod.InputMethodManager;
 import android.widget.Toast;
 
 import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-import java.util.stream.Collectors;
 
+import bt.unicamp.ft.m183711_v188110.vista_me.database.Products;
 import bt.unicamp.ft.m183711_v188110.vista_me.entities.Product;
 import bt.unicamp.ft.m183711_v188110.vista_me.enumerations.e_Sexo;
 import bt.unicamp.ft.m183711_v188110.vista_me.fragments.CartFragment;
+import bt.unicamp.ft.m183711_v188110.vista_me.fragments.LoadingFragment;
 import bt.unicamp.ft.m183711_v188110.vista_me.fragments.LoginFragment;
 import bt.unicamp.ft.m183711_v188110.vista_me.fragments.OrdersFragment;
 import bt.unicamp.ft.m183711_v188110.vista_me.fragments.ProductsFragment;
 import bt.unicamp.ft.m183711_v188110.vista_me.fragments.RegisterFragment;
 import bt.unicamp.ft.m183711_v188110.vista_me.interfaces.BuyItemEventListener;
+import bt.unicamp.ft.m183711_v188110.vista_me.interfaces.DbExecuteWithReturn;
 import bt.unicamp.ft.m183711_v188110.vista_me.interfaces.FragmentManagerActivity;
 import bt.unicamp.ft.m183711_v188110.vista_me.interfaces.LoginListener;
+import bt.unicamp.ft.m183711_v188110.vista_me.interfaces.WaitLoadFragment;
 
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener, FragmentManagerActivity,
-        BuyItemEventListener,LoginListener {
+        BuyItemEventListener,LoginListener,DbExecuteWithReturn {
 
 
     private android.support.v4.app.FragmentManager fragmentManager;
@@ -51,6 +52,11 @@ public class MainActivity extends AppCompatActivity
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
+        StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
+
+        StrictMode.setThreadPolicy(policy);
+
+
         setContentView(R.layout.activity_main);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
@@ -65,8 +71,18 @@ public class MainActivity extends AppCompatActivity
         navigationView.setNavigationItemSelectedListener(this);
 
         fragmentManager = getSupportFragmentManager();
-        productsFragment = new ProductsFragment(new ArrayList(Arrays.asList(Products.products)),this,this);
-        OpenFragment(productsFragment,"Products",false);
+
+        final DbExecuteWithReturn callback = this;
+
+        LoadingFragment loadingFragment = new LoadingFragment(new WaitLoadFragment() {
+            @Override
+            public Fragment execute() {
+                Products.getAllProducts(callback,null);
+                return null;
+            }
+        },this);
+
+        this.OpenFragment(loadingFragment,"loadding",true);
 
         loginButton = navigationView.getMenu().findItem(R.id.login);
         registerButton = navigationView.getMenu().findItem(R.id.register);
@@ -120,14 +136,43 @@ public class MainActivity extends AppCompatActivity
         int id = item.getItemId();
 
         if (id == R.id.female) {
-            productsFragment = new ProductsFragment(getProductsBySexo(e_Sexo.feminino),this,this);
-            OpenFragment(productsFragment,"Products",false);
+            final DbExecuteWithReturn callback = this;
+
+            LoadingFragment loadingFragment = new LoadingFragment(new WaitLoadFragment() {
+                @Override
+                public Fragment execute() {
+                    Products.getAllProducts(callback,e_Sexo.feminino);
+                    return null;
+                }
+            },this);
+
+            this.OpenFragment(loadingFragment,"loadding",true);
+
         } else if (id == R.id.male) {
-            productsFragment = new ProductsFragment(getProductsBySexo(e_Sexo.masculino),this,this);
-            OpenFragment(productsFragment,"Products",false);
+            final DbExecuteWithReturn callback = this;
+
+            LoadingFragment loadingFragment = new LoadingFragment(new WaitLoadFragment() {
+                @Override
+                public Fragment execute() {
+                    Products.getAllProducts(callback,e_Sexo.masculino);
+                    return null;
+                }
+            },this);
+
+            this.OpenFragment(loadingFragment,"loadding",true);
         } else if (id == R.id.all) {
-            productsFragment = new ProductsFragment(new ArrayList(Arrays.asList(Products.products)),this,this);
-            OpenFragment(productsFragment,"Products",false);
+            final DbExecuteWithReturn callback = this;
+
+            LoadingFragment loadingFragment = new LoadingFragment(new WaitLoadFragment() {
+                @Override
+                public Fragment execute() {
+                    Products.getAllProducts(callback,null);
+                    return null;
+                }
+            },this);
+
+            this.OpenFragment(loadingFragment,"loadding",true);
+
         }  else if (id == R.id.login) {
 
             LoginFragment loginFragment = new LoginFragment(login,this);
@@ -160,16 +205,7 @@ public class MainActivity extends AppCompatActivity
        }
     }
 
-    private ArrayList<Product> getProductsBySexo(e_Sexo sexo){
-        ArrayList<Product> p = new ArrayList<>();
 
-        for(Product prod : Products.products){
-            if(prod.getSexo() == sexo)
-                p.add(prod);
-        }
-
-        return p;
-    }
 
     private String getCurrentTagFragment(){
         try {
@@ -210,5 +246,15 @@ public class MainActivity extends AppCompatActivity
         myOrderButton.setVisible(login.isLogged());
         loggoutButton.setVisible(login.isLogged());
     }
+
+    @Override
+    public void onReturn(Object obj) {
+
+        productsFragment = new ProductsFragment((ArrayList<Product>) obj,this,this);
+        OpenFragment(productsFragment,"Products",false);
+
+    }
+
+
 }
 

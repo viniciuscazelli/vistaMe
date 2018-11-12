@@ -10,11 +10,16 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import java.util.ArrayList;
+
 import bt.unicamp.ft.m183711_v188110.vista_me.AdapteRecyclerViewOrders;
 import bt.unicamp.ft.m183711_v188110.vista_me.AdapteRecyclerViewProduct;
 import bt.unicamp.ft.m183711_v188110.vista_me.Login;
 import bt.unicamp.ft.m183711_v188110.vista_me.R;
+import bt.unicamp.ft.m183711_v188110.vista_me.database.Orders;
+import bt.unicamp.ft.m183711_v188110.vista_me.entities.Order;
 import bt.unicamp.ft.m183711_v188110.vista_me.interfaces.CartNotificChangeListProducts;
+import bt.unicamp.ft.m183711_v188110.vista_me.interfaces.DbExecuteWithReturn;
 import bt.unicamp.ft.m183711_v188110.vista_me.interfaces.FragmentManagerActivity;
 import bt.unicamp.ft.m183711_v188110.vista_me.interfaces.MyOnItemClickListener;
 import bt.unicamp.ft.m183711_v188110.vista_me.interfaces.MyOnLongItemClickListener;
@@ -30,6 +35,7 @@ public class OrdersFragment extends Fragment implements MyOnItemClickListener{
     private Login login;
     private RecyclerView mRecyclerView;
     private AdapteRecyclerViewOrders mAdapter;
+    private MyOnItemClickListener thisMyOnItemClickListener = this;
 
     @SuppressLint("ValidFragment")
     public OrdersFragment(FragmentManagerActivity fragmentManagerActivity, Login login) {
@@ -43,16 +49,29 @@ public class OrdersFragment extends Fragment implements MyOnItemClickListener{
                              Bundle savedInstanceState) {
         fragment =  inflater.inflate(R.layout.fragment_orders, container, false);
 
-        RecyclerView mRecyclerView = fragment.findViewById(R.id.mRecyclerViewOrders);
-        mRecyclerView.setHasFixedSize(true);
-        mRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
 
-        mAdapter = new AdapteRecyclerViewOrders(login.getUser().getOrders());
+        Orders.getOrderByUserId(new DbExecuteWithReturn() {
+            @Override
+            public void onReturn(Object obj) {
 
-        mAdapter.setMyOnItemClickListener(this);
 
-        mRecyclerView.setAdapter(mAdapter);
-        mAdapter.notifyDataSetChanged();
+                RecyclerView mRecyclerView = fragment.findViewById(R.id.mRecyclerViewOrders);
+                mRecyclerView.setHasFixedSize(true);
+                mRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
+
+                login.getUser().setOrders((ArrayList<Order>) obj);
+
+                mAdapter = new AdapteRecyclerViewOrders((ArrayList<Order>) obj);
+
+                mAdapter.setMyOnItemClickListener(thisMyOnItemClickListener);
+
+                mRecyclerView.setAdapter(mAdapter);
+                mAdapter.notifyDataSetChanged();
+
+            }
+        },login.getUser().getId());
+
+
 
         return fragment;
     }

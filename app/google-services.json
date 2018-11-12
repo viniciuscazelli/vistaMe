@@ -1,0 +1,55 @@
+{
+  "project_info": {
+    "project_number": "811158685916",
+    "firebase_url": "https://vista-me.firebaseio.com",
+    "project_id": "vista-me",
+    "storage_bucket": "vista-me.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:811158685916:android:65cd8c8f6dabcdcb",
+        "android_client_info": {
+          "package_name": "bt.unicamp.ft.m183711_v188110.vista_me"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "811158685916-57kmp8cd3h5n26glhs72nnurc7u5vskn.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "bt.unicamp.ft.m183711_v188110.vista_me",
+            "certificate_hash": "d8cf4d4ac38fa42980ac4cee6cb411f33a2f5d75"
+          }
+        },
+        {
+          "client_id": "811158685916-v6onq1grt3ftlberebqjqbo0dm4fsjn5.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBxQveVjvV4Dzxu-J8Z-l7r_i-e6sDVlQ4"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 2,
+          "other_platform_oauth_client": [
+            {
+              "client_id": "811158685916-v6onq1grt3ftlberebqjqbo0dm4fsjn5.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

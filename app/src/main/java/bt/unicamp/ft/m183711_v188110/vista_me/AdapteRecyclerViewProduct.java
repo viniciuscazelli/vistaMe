@@ -97,10 +97,14 @@ public class AdapteRecyclerViewProduct extends RecyclerView.Adapter {
 
         public void bind(final Product product) {
             this.product = product;
-            imageView.setImageResource(product.getFoto());
+
+            if(product.getFoto() == null)
+                System.out.print("foto em branco");
+
+            imageView.setImageBitmap(product.getFoto());
             imageView.buildLayer();
             primaryTextView.setText(product.getNome());
-            dividerNumberTextView.setText(String.format("%.0f",product.getDividerValue())+"x");
+            dividerNumberTextView.setText(product.getMaxDivider()+"x");
             dividerValueTextView.setText(" R$ "+String.format( "%.2f", product.getDividerValue() ));
             valorTextView.setText(" R$ "+String.format( "%.2f", product.getValor() ));
         }

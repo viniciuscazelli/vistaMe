@@ -1,6 +1,8 @@
 package bt.unicamp.ft.m183711_v188110.vista_me;
 
+import bt.unicamp.ft.m183711_v188110.vista_me.database.Users;
 import bt.unicamp.ft.m183711_v188110.vista_me.entities.User;
+import bt.unicamp.ft.m183711_v188110.vista_me.interfaces.DbExecuteWithReturn;
 import bt.unicamp.ft.m183711_v188110.vista_me.interfaces.LoginListener;
 
 public class Login {
@@ -12,41 +14,70 @@ public class Login {
         this.loginListener = loginListener;
     }
 
-    public Boolean validLogin(String Username, String Password){
-        if(Username.equals("FT") && Password.equals("12345")){
-            this.user = new User(1,"Faculdade","Tecnologia","00000000000",
-                    "R. Paschoal Marmo","1888","Jardim Sao Paulo","Limeira","São Paulo","13484-332",
-                    "FT","12345",null,null, "Masculino");
-            if(loginListener != null)
+    public Boolean validLogin(String Username, String Password, final DbExecuteWithReturn dbExecuteWithReturn){
+
+        Users.validLogin(new DbExecuteWithReturn() {
+            @Override
+            public void onReturn(Object obj) {
+                if(obj == null){
+                    dbExecuteWithReturn.onReturn(false);
+                }else{
+                    user = (User)obj;
+                    dbExecuteWithReturn.onReturn(true);
+                }
                 loginListener.changeLoginStatus();
-            return true;
-        }else{
-            return false;
-        }
+            }
+        },Username,Password);
+
+        return false;
     }
 
     public User getUser() {
         return user;
     }
 
-    public String register(String name, String lastname, String CPF, String address, String number,
-                           String distric, String city, String country, String CEP, String username,
-                           String password, String passwordConfirm, String sexo){
+    public void register(final String name, final String lastname, final String CPF, final String address, final String number,
+                           final String distric, final String city, final String country, final String CEP, final String username,
+                           final String password, String passwordConfirm, final String sexo, final DbExecuteWithReturn dbExecuteWithReturn){
         if(isLogged()){
-            return "Não é possivel se registar pois um usuário esta logado no momento neste dispositivo.";
+            dbExecuteWithReturn.onReturn("Não é possivel se registar pois um usuário esta logado no momento neste dispositivo.");
         }else if(name.isEmpty() || lastname.isEmpty() || CPF.isEmpty() || address.isEmpty() ||
                 number.isEmpty() || distric.isEmpty()|| city.isEmpty()|| country.isEmpty() ||
                 CEP.isEmpty()|| username.isEmpty()|| password.isEmpty() || passwordConfirm.isEmpty()||
                 sexo.isEmpty()){
-            return "Preencha os campos corretamente";
+            dbExecuteWithReturn.onReturn("Preencha os campos corretamente");
         }else if(!password.equals(passwordConfirm)){
-            return "As senhas não conferem";
+            dbExecuteWithReturn.onReturn( "As senhas não conferem");
         }
 
-            user = new User(-1,name,lastname,CPF,address,number,distric,city,country,CEP,username,password,null,null,"Masculino");
-            return "";
+        Users.checkedUserNameRegisted(new DbExecuteWithReturn() {
+            @Override
+            public void onReturn(Object obj) {
 
+                if((boolean)obj){
+                    dbExecuteWithReturn.onReturn("Username já cadastrado");
+                }else{
+                    Users.checkedCPFRegisted(new DbExecuteWithReturn() {
+                        @Override
+                        public void onReturn(Object obj) {
+                            if((boolean)obj){
+                                dbExecuteWithReturn.onReturn("CPF já cadastrado");
+                            }else{
+                                Users.createUser(new DbExecuteWithReturn() {
+                                    @Override
+                                    public void onReturn(Object obj) {
+                                        user = new User((String)obj,name,lastname,CPF,address,number,distric,city,country,CEP,username,password,null,null,sexo);
+                                        loginListener.changeLoginStatus();
+                                        dbExecuteWithReturn.onReturn("");
+                                    }
+                                },name,lastname,CPF,address,number,distric,city,country,CEP,username,password,sexo);
+                            }
+                        }
+                    },CPF);
+                }
 
+            }
+        },username);
     }
 
     public Boolean isLogged(){

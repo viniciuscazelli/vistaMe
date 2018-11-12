@@ -25,12 +25,13 @@ import java.util.Random;
 
 import bt.unicamp.ft.m183711_v188110.vista_me.Cart;
 import bt.unicamp.ft.m183711_v188110.vista_me.Login;
-import bt.unicamp.ft.m183711_v188110.vista_me.Products;
 import bt.unicamp.ft.m183711_v188110.vista_me.R;
+import bt.unicamp.ft.m183711_v188110.vista_me.database.Orders;
 import bt.unicamp.ft.m183711_v188110.vista_me.entities.Card;
 import bt.unicamp.ft.m183711_v188110.vista_me.entities.Order;
 import bt.unicamp.ft.m183711_v188110.vista_me.entities.Product;
 import bt.unicamp.ft.m183711_v188110.vista_me.entities.User;
+import bt.unicamp.ft.m183711_v188110.vista_me.interfaces.DBExecute;
 import bt.unicamp.ft.m183711_v188110.vista_me.interfaces.FragmentManagerActivity;
 
 /**
@@ -178,19 +179,28 @@ public class CheckoutFragment extends Fragment implements RadioGroup.OnCheckedCh
             CardFragment cardFragment = new CardFragment(login, fragmentManagerActivity);
             fragmentManagerActivity.OpenFragment(cardFragment, "Card", true);
         }else {
-            Random rand = new Random();
 
 
 
-            Order order = new Order(cart.itens, dividerSelected, cardSelected, new Date(), String.format("%08d",rand.nextInt(99999999)),"Em aprovação",cart.Frete());
 
-            login.getUser().addOrder(order);
+            final Order order = new Order(cart.itens, dividerSelected, cardSelected, new Date(), "","Em aprovação",cart.Frete());
 
-            cart.itens = new ArrayList<Product>();
 
-            CheckoutOkFragment checkoutOkFragment = new CheckoutOkFragment(fragmentManagerActivity, order.getNumber());
+            Orders.saveOrder(new DBExecute() {
+                @Override
+                public void onReturn() {
 
-            fragmentManagerActivity.OpenFragment(checkoutOkFragment, "checkoutOk", true);
+                    login.getUser().addOrder(order);
+
+                    cart.itens = new ArrayList<Product>();
+
+                    CheckoutOkFragment checkoutOkFragment = new CheckoutOkFragment(fragmentManagerActivity, order.getNumber());
+
+                    fragmentManagerActivity.OpenFragment(checkoutOkFragment, "checkoutOk", true);
+
+                }
+            },order,login.getUser().getId());
+
         }
     }
 }
