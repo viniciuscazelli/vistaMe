@@ -2,6 +2,7 @@ package bt.unicamp.ft.m183711_v188110.vista_me;
 
 import bt.unicamp.ft.m183711_v188110.vista_me.database.Users;
 import bt.unicamp.ft.m183711_v188110.vista_me.entities.User;
+import bt.unicamp.ft.m183711_v188110.vista_me.interfaces.DBExecute;
 import bt.unicamp.ft.m183711_v188110.vista_me.interfaces.DbExecuteWithReturn;
 import bt.unicamp.ft.m183711_v188110.vista_me.interfaces.LoginListener;
 
@@ -39,9 +40,7 @@ public class Login {
     public void register(final String name, final String lastname, final String CPF, final String address, final String number,
                            final String distric, final String city, final String country, final String CEP, final String username,
                            final String password, String passwordConfirm, final String sexo, final DbExecuteWithReturn dbExecuteWithReturn){
-        if(isLogged()){
-            dbExecuteWithReturn.onReturn("Não é possivel se registar pois um usuário esta logado no momento neste dispositivo.");
-        }else if(name.isEmpty() || lastname.isEmpty() || CPF.isEmpty() || address.isEmpty() ||
+         if(name.isEmpty() || lastname.isEmpty() || CPF.isEmpty() || address.isEmpty() ||
                 number.isEmpty() || distric.isEmpty()|| city.isEmpty()|| country.isEmpty() ||
                 CEP.isEmpty()|| username.isEmpty()|| password.isEmpty() || passwordConfirm.isEmpty()||
                 sexo.isEmpty()){
@@ -54,7 +53,18 @@ public class Login {
             @Override
             public void onReturn(Object obj) {
 
-                if((boolean)obj){
+                if(isLogged()) {
+
+                    Users.updateUser(new DBExecute() {
+                        @Override
+                        public void onReturn() {
+                            user = new User(getUser().getId(),name,lastname,CPF,address,number,distric,city,country,CEP,username,password,null,null,sexo);
+                            loginListener.changeLoginStatus();
+                            dbExecuteWithReturn.onReturn("");
+                        }
+                    },getUser().getId(),name,lastname,CPF,address,number,distric,city,country,CEP,username,password,sexo);
+
+                }else if((boolean)obj){
                     dbExecuteWithReturn.onReturn("Username já cadastrado");
                 }else{
                     Users.checkedCPFRegisted(new DbExecuteWithReturn() {

@@ -21,6 +21,7 @@ import bt.unicamp.ft.m183711_v188110.vista_me.entities.Card;
 import bt.unicamp.ft.m183711_v188110.vista_me.entities.Product;
 import bt.unicamp.ft.m183711_v188110.vista_me.entities.User;
 import bt.unicamp.ft.m183711_v188110.vista_me.enumerations.e_Sexo;
+import bt.unicamp.ft.m183711_v188110.vista_me.interfaces.DBExecute;
 import bt.unicamp.ft.m183711_v188110.vista_me.interfaces.DbExecuteWithReturn;
 
 import static android.support.constraint.Constraints.TAG;
@@ -202,6 +203,41 @@ public class Users {
                 });
     }
 
+    public static void updateUser(final DBExecute callback, String id, String name, String lastname, String CPF, String address, String number,
+                                  String distric, String city, String country, String CEP, String username,
+                                  String password, String sexo){
+
+        FirebaseFirestore db = FirebaseFirestore.getInstance();
+
+        // Create a new user with a first and last name
+        Map<String, Object> user = new HashMap<>();
+        user.put("name", name);
+        user.put("lastname", lastname);
+        user.put("CPF", CPF);
+        user.put("address", address);
+        user.put("number", number);
+        user.put("distric", distric);
+        user.put("city", city);
+        user.put("country", country);
+        user.put("CEP", CEP);
+        user.put("username", username);
+        user.put("password", password);
+        user.put("sexo", sexo);
+
+
+
+        db.collection("users").document(id)
+                .update(user)
+                .addOnSuccessListener(new OnSuccessListener<Void>() {
+                    @Override
+                    public void onSuccess(Void aVoid) {
+
+                        callback.onReturn();
+
+                    }
+                });
+    }
+
     public static void getCardsByID(final DbExecuteWithReturn callback, String userId, String cardID){
 
         FirebaseFirestore db = FirebaseFirestore.getInstance();
@@ -218,8 +254,10 @@ public class Users {
                                 card.setDocumentNumber(document.getString("documentNumber"));
                                 card.setNameHolder(document.getString("NameHolder"));
                                 card.setNumber(document.getString("Number"));
-                                card.setMonth(Integer.parseInt(document.getString("month")));
-                                card.setYear(Integer.parseInt(document.getString("year")));
+                                card.setId(document.getId());
+                                card.setMonth(Integer.valueOf(document.getDouble("month").intValue()));
+                                card.setYear(Integer.valueOf(document.getDouble("year").intValue()));
+
 
                                 callback.onReturn(card);
                             }
@@ -246,8 +284,10 @@ public class Users {
                                 card.setDocumentNumber(document.getString("documentNumber"));
                                 card.setNameHolder(document.getString("NameHolder"));
                                 card.setNumber(document.getString("Number"));
-                                card.setMonth(Integer.parseInt(document.getString("month")));
-                                card.setYear(Integer.parseInt(document.getString("year")));
+                                card.setId(document.getId());
+                                card.setMonth(Integer.valueOf(document.getDouble("month").intValue()));
+                                card.setYear(Integer.valueOf(document.getDouble("year").intValue()));
+
 
                                 cards.add(card);
                             }

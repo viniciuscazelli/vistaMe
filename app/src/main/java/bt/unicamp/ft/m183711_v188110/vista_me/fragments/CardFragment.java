@@ -15,7 +15,9 @@ import java.util.ArrayList;
 
 import bt.unicamp.ft.m183711_v188110.vista_me.Login;
 import bt.unicamp.ft.m183711_v188110.vista_me.R;
+import bt.unicamp.ft.m183711_v188110.vista_me.database.Cards;
 import bt.unicamp.ft.m183711_v188110.vista_me.entities.Card;
+import bt.unicamp.ft.m183711_v188110.vista_me.interfaces.DBExecute;
 import bt.unicamp.ft.m183711_v188110.vista_me.interfaces.FragmentManagerActivity;
 
 /**
@@ -26,6 +28,7 @@ public class CardFragment extends Fragment implements View.OnClickListener {
 
     private Login login;
     private FragmentManagerActivity fragmentManagerActivity;
+    private Fragment thisFragment = this;
     private View fragment;
 
     private EditText numberCard;
@@ -73,13 +76,20 @@ public class CardFragment extends Fragment implements View.OnClickListener {
         if(number.isEmpty() || cod.isEmpty() || nameCard.isEmpty() || monthCard.isEmpty() || yearCard.isEmpty()){
             message.setText("Preencha os campos corretamente");
         }else {
-            Card card = new Card(number,cod,nameCard,Integer.parseInt(monthCard),Integer.parseInt(yearCard));
+            final Card card = new Card(null,number,cod,nameCard,Integer.parseInt(monthCard),Integer.parseInt(yearCard));
 
             if(card.isValid()){
-                if(login.getUser().getCards() == null)
-                    login.getUser().setCards(new ArrayList<Card>());
-                login.getUser().getCards().add(card);
-                fragmentManagerActivity.RemoveFragment(this);
+
+                Cards.AddCard(new DBExecute() {
+                    @Override
+                    public void onReturn() {
+                        if(login.getUser().getCards() == null)
+                            login.getUser().setCards(new ArrayList<Card>());
+                        login.getUser().getCards().add(card);
+                        fragmentManagerActivity.RemoveFragment(thisFragment);
+                    }
+                },login.getUser().getId(),card);
+
             }else{
                 message.setText("Dados invalidos corrija para continuar");
             }

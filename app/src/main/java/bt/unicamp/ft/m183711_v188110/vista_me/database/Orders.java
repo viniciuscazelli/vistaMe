@@ -63,6 +63,7 @@ public class Orders {
                                                                                card.setDocumentNumber(document.getString("documentNumber"));
                                                                                card.setNameHolder(document.getString("NameHolder"));
                                                                                card.setNumber(document.getString("Number"));
+                                                                               card.setId(document.getId());
                                                                                card.setMonth(Integer.valueOf(document.getDouble("month").intValue()));
                                                                                card.setYear(Integer.valueOf(document.getDouble("year").intValue()));
 
@@ -131,8 +132,9 @@ public class Orders {
                                 card.setDocumentNumber(document.getString("documentNumber"));
                                 card.setNameHolder(document.getString("NameHolder"));
                                 card.setNumber(document.getString("Number"));
-                                card.setMonth(Integer.parseInt(document.getString("month")));
-                                card.setYear(Integer.parseInt(document.getString("year")));
+                                card.setId(document.getId());
+                                card.setMonth(Integer.valueOf(document.getDouble("month").intValue()));
+                                card.setYear(Integer.valueOf(document.getDouble("year").intValue()));
 
                                 callback.onReturn(card);
                             }

@@ -46,6 +46,7 @@ public class MainActivity extends AppCompatActivity
     private MenuItem registerButton;
     private MenuItem myOrderButton;
     private MenuItem loggoutButton;
+    private MenuItem editData;
     private Cart cart;
 
     @Override
@@ -85,9 +86,13 @@ public class MainActivity extends AppCompatActivity
         this.OpenFragment(loadingFragment,"loadding",true);
 
         loginButton = navigationView.getMenu().findItem(R.id.login);
+
+
+
         registerButton = navigationView.getMenu().findItem(R.id.register);
         myOrderButton = navigationView.getMenu().findItem(R.id.myOrders);
         loggoutButton = navigationView.getMenu().findItem(R.id.loggout);
+        editData = navigationView.getMenu().findItem(R.id.editData);
 
         login = new Login(this);
         changeLoginStatus();
@@ -178,10 +183,10 @@ public class MainActivity extends AppCompatActivity
             LoginFragment loginFragment = new LoginFragment(login,this);
             OpenFragment(loginFragment,"Login",true);
 
-        } else if (id == R.id.register) {
+        } else if (id == R.id.register || id == R.id.editData) {
             RegisterFragment registerFragment = new RegisterFragment(login,this);
             OpenFragment(registerFragment,"register",true);
-        } else if (id == R.id.myOrders) {
+        }else if (id == R.id.myOrders) {
             OrdersFragment ordersFragment = new OrdersFragment(this,login);
             OpenFragment(ordersFragment,"register",true);
         }else if (id == R.id.loggout){
@@ -244,6 +249,7 @@ public class MainActivity extends AppCompatActivity
         loginButton.setVisible(!login.isLogged());
         registerButton.setVisible(!login.isLogged());
         myOrderButton.setVisible(login.isLogged());
+        editData.setVisible(login.isLogged());
         loggoutButton.setVisible(login.isLogged());
     }
 

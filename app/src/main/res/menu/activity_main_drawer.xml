@@ -30,6 +30,10 @@
                 android:icon="@mipmap/ic_local_shipping"
                 android:title="Acompanhar pedidos" />
             <item
+                android:id="@+id/editData"
+                android:icon="@mipmap/ic_edit"
+                android:title="Editar dados" />
+            <item
                 android:id="@+id/loggout"
                 android:icon="@mipmap/ic_exit"
                 android:title="Sair" />

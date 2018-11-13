@@ -26,12 +26,15 @@ import java.util.Random;
 import bt.unicamp.ft.m183711_v188110.vista_me.Cart;
 import bt.unicamp.ft.m183711_v188110.vista_me.Login;
 import bt.unicamp.ft.m183711_v188110.vista_me.R;
+import bt.unicamp.ft.m183711_v188110.vista_me.database.Cards;
 import bt.unicamp.ft.m183711_v188110.vista_me.database.Orders;
+import bt.unicamp.ft.m183711_v188110.vista_me.database.Users;
 import bt.unicamp.ft.m183711_v188110.vista_me.entities.Card;
 import bt.unicamp.ft.m183711_v188110.vista_me.entities.Order;
 import bt.unicamp.ft.m183711_v188110.vista_me.entities.Product;
 import bt.unicamp.ft.m183711_v188110.vista_me.entities.User;
 import bt.unicamp.ft.m183711_v188110.vista_me.interfaces.DBExecute;
+import bt.unicamp.ft.m183711_v188110.vista_me.interfaces.DbExecuteWithReturn;
 import bt.unicamp.ft.m183711_v188110.vista_me.interfaces.FragmentManagerActivity;
 
 /**
@@ -44,6 +47,7 @@ public class CheckoutFragment extends Fragment implements RadioGroup.OnCheckedCh
     private RadioGroup RadioGroupCards;
 
     private Button addCardButton;
+    private Button RemoveCardButton;
     private Button Checkout;
 
     private View fragment;
@@ -85,30 +89,23 @@ public class CheckoutFragment extends Fragment implements RadioGroup.OnCheckedCh
         addCardButton = fragment.findViewById(R.id.addCardButton);
         addCardButton.setOnClickListener(this);
 
+        RemoveCardButton = fragment.findViewById(R.id.removeCardButton);
+        RemoveCardButton.setOnClickListener(this);
+
         RadioGroupCards = fragment.findViewById(R.id.RadioGroupCards);
         RadioButton button;
         RadioNoCards = fragment.findViewById(R.id.RadioNoCards);
 
 
-        if (login.getUser().getCards() == null || login.getUser().getCards().size() < 1) {
-            RadioNoCards.setVisibility(View.VISIBLE);
-            RadioGroupCards.setVisibility(View.INVISIBLE);
-        } else {
-            RadioNoCards.setVisibility(View.INVISIBLE);
-            RadioGroupCards.setVisibility(View.VISIBLE);
-            boolean first = true;
-            for (Card card : login.getUser().getCards()) {
-                button = new RadioButton(getActivity());
-                button.setTag(card);
-                button.setText("(" + card.getCardTypeName() + ") " + card.getNumber(true));
-                RadioGroupCards.addView(button);
-                if (first) {
-                    RadioGroupCards.check(button.getId());
-                    first = false;
-                    cardSelected = card;
-                }
+        Users.getCardsUser(new DbExecuteWithReturn() {
+            @Override
+            public void onReturn(Object obj) {
+                login.getUser().setCards((ArrayList<Card>) obj);
+                setButtonRadio();
             }
-        }
+        },login.getUser().getId());
+
+
 
         RadioGroupCards.setOnCheckedChangeListener(this);
 
@@ -160,6 +157,31 @@ public class CheckoutFragment extends Fragment implements RadioGroup.OnCheckedCh
         return fragment;
     }
 
+    private void setButtonRadio() {
+        RadioButton button;
+        RadioGroupCards.removeAllViews();
+
+        if (login.getUser().getCards() == null || login.getUser().getCards().size() < 1) {
+            RadioNoCards.setVisibility(View.VISIBLE);
+            RadioGroupCards.setVisibility(View.INVISIBLE);
+        } else {
+            RadioNoCards.setVisibility(View.INVISIBLE);
+            RadioGroupCards.setVisibility(View.VISIBLE);
+            boolean first = true;
+            for (Card card : login.getUser().getCards()) {
+                button = new RadioButton(getActivity());
+                button.setTag(card);
+                button.setText("(" + card.getCardTypeName() + ") " + card.getNumber(true));
+                RadioGroupCards.addView(button);
+                if (first) {
+                    RadioGroupCards.check(button.getId());
+                    first = false;
+                    cardSelected = card;
+                }
+            }
+        }
+    }
+
     @Override
     public void onCheckedChanged(RadioGroup group, int checkedId) {
 
@@ -178,11 +200,21 @@ public class CheckoutFragment extends Fragment implements RadioGroup.OnCheckedCh
         if (v.getId() == R.id.addCardButton) {
             CardFragment cardFragment = new CardFragment(login, fragmentManagerActivity);
             fragmentManagerActivity.OpenFragment(cardFragment, "Card", true);
+        }else if (v.getId() == R.id.removeCardButton) {
+
+            if(cardSelected != null){
+                Cards.DeleteCard(new DBExecute() {
+                    @Override
+                    public void onReturn() {
+                        login.getUser().getCards().remove(cardSelected);
+                        setButtonRadio();
+                    }
+                },login.getUser().getId(),cardSelected.getId());
+            }else{
+
+            }
+
         }else {
-
-
-
-
             final Order order = new Order(cart.itens, dividerSelected, cardSelected, new Date(), "","Em aprovação",cart.Frete());
 
 

@@ -6,14 +6,16 @@ public class Card {
     private String Number;
     private String NameHolder;
     private String documentNumber;
+    private String id;
     private int month;
     private int year;
 
     public Card (){}
 
-    public Card(String number, String nameHolder, String documentNumber, int month, int year) {
+    public Card(String id, String number, String nameHolder, String documentNumber, int month, int year) {
         Number = number;
         NameHolder = nameHolder;
+        this.id = id;
         this.documentNumber = documentNumber;
         this.month = month;
         this.year = year;
@@ -118,5 +120,13 @@ public class Card {
 
     public void setYear(int year) {
         this.year = year;
+    }
+
+    public String getId() {
+        return id;
+    }
+
+    public void setId(String id) {
+        this.id = id;
     }
 }

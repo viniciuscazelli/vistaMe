@@ -9,6 +9,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.inputmethod.InputMethodManager;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.RadioButton;
@@ -18,6 +19,7 @@ import android.widget.TextView;
 
 import bt.unicamp.ft.m183711_v188110.vista_me.Login;
 import bt.unicamp.ft.m183711_v188110.vista_me.R;
+import bt.unicamp.ft.m183711_v188110.vista_me.entities.User;
 import bt.unicamp.ft.m183711_v188110.vista_me.interfaces.DbExecuteWithReturn;
 import bt.unicamp.ft.m183711_v188110.vista_me.interfaces.FragmentManagerActivity;
 
@@ -45,6 +47,9 @@ public class RegisterFragment extends Fragment implements View.OnClickListener {
     private Button registerButton;
     private Button loginButton;
     private RadioGroup groupSexo;
+    private RadioButton radio_m;
+    private RadioButton radio_f;
+
     private Fragment nextFragment;
     private Fragment thisFragment = this;
 
@@ -86,10 +91,46 @@ public class RegisterFragment extends Fragment implements View.OnClickListener {
         registerButton= fragment.findViewById(R.id.registerButton);
         loginButton= fragment.findViewById(R.id.loginButton);
         groupSexo = fragment.findViewById(R.id.groupSexo);
+        radio_m = fragment.findViewById(R.id.radio_m);
+        radio_f = fragment.findViewById(R.id.radio_f);
 
         registerButton.setOnClickListener(this);
         loginButton.setOnClickListener(this);
+
+
+        if(login.isLogged()){
+            loadData();
+            loginButton.setVisibility(View.INVISIBLE);
+            registerButton.setText("Salvar");
+        }
+
+
         return fragment;
+    }
+
+    public void loadData(){
+        User user = login.getUser();
+
+        name.setText(user.getName());
+        lastname.setText(user.getLastname());
+        CPF.setText(user.getCPF());
+        address.setText(user.getAddress());;
+        number.setText(user.getNumber());
+        distric.setText(user.getDistric());
+        city.setText(user.getCity());
+
+        ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(getContext(), R.array.estados, android.R.layout.simple_spinner_item);
+        int spinnerPosition = adapter.getPosition(user.getCountry());
+        country.setSelection(spinnerPosition);
+
+        CEP.setText(user.getCEP());
+        username.setText(user.getUsername());
+        password.setText(user.getPassword());
+        passwordConfirm.setText(user.getPassword());
+
+        radio_f.setSelected(user.getSexo() == "Feminino");
+        radio_m.setSelected(user.getSexo() == "Masculino");
+
     }
 
     @Override
@@ -111,6 +152,7 @@ public class RegisterFragment extends Fragment implements View.OnClickListener {
         }
 
         login.register(
+
                 name.getText().toString(),
                 lastname.getText().toString(),
                 CPF.getText().toString(),
