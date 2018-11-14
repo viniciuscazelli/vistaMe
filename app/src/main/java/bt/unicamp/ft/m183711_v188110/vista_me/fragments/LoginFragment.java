@@ -72,7 +72,7 @@ public class LoginFragment extends Fragment implements View.OnClickListener {
 
         if(b.getId() == R.id.registerButton) {
             fragmentManagerActivity.RemoveFragment(this);
-            RegisterFragment registerFragment = new RegisterFragment(login,fragmentManagerActivity);
+            RegisterFragment registerFragment = new RegisterFragment(login,fragmentManagerActivity,nextFragment);
             fragmentManagerActivity.OpenFragment(registerFragment,"Register",true);
             return;
         }

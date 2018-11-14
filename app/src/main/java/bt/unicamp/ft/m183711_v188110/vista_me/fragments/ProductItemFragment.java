@@ -70,8 +70,10 @@ public class ProductItemFragment extends Fragment {
     }
 
     private void LoadData(){
-        imageView.setImageBitmap(product.getFoto());
-        imageView.buildLayer();
+//        imageView.setImageBitmap(product.getFoto());
+//        imageView.buildLayer();
+
+        imageView.setImageResource(product.getFotoId());
         primaryTextView.setText(product.getNome());
         dividerNumberTextView.setText(product.getDividerValue()+"x");
         dividerValueTextView.setText(" R$ "+String.format( "%.2f", product.getDividerValue() ));

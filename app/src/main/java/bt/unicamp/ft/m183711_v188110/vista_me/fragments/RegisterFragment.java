@@ -141,7 +141,6 @@ public class RegisterFragment extends Fragment implements View.OnClickListener {
             fragmentManagerActivity.RemoveFragment(this);
             LoginFragment loginFragment = new LoginFragment(login,fragmentManagerActivity,nextFragment);
             fragmentManagerActivity.OpenFragment(loginFragment,"login",true);
-
         }
 
 
@@ -176,6 +175,7 @@ public class RegisterFragment extends Fragment implements View.OnClickListener {
                             fragmentManagerActivity.RemoveFragment(thisFragment);
                             if(nextFragment != null)
                                 fragmentManagerActivity.OpenFragment(nextFragment,"redirectFragment",true);
+
                         }else{
                             message.setText(r);
                         }

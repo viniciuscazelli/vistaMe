@@ -13,6 +13,9 @@ import com.google.firebase.firestore.Query;
 import com.google.firebase.firestore.QuerySnapshot;
 
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -31,7 +34,8 @@ public class Orders {
 
         final FirebaseFirestore db = FirebaseFirestore.getInstance();
 
-        db.collection("users").document(idUser).collection("orders").orderBy("date", Query.Direction.ASCENDING).get()
+        db.collection("users").document(idUser).collection("orders")
+                .orderBy("date").get()
                 .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
                     @Override
                     public void onComplete(@NonNull Task<QuerySnapshot> task) {
@@ -96,6 +100,15 @@ public class Orders {
 
                                         LeftLoadding[0]--;
                                         if(LeftLoadding[0] == 0){
+
+                                            Collections.sort(orders, new Comparator<Order>(){
+
+                                                public int compare(Order o1, Order o2)
+                                                {
+                                                    return o1.getDate().compareTo(o2.getDate());
+                                                }
+                                            });
+
                                             callback.onReturn(orders);
                                         }
                                     }

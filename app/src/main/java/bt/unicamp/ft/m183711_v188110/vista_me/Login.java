@@ -40,13 +40,16 @@ public class Login {
     public void register(final String name, final String lastname, final String CPF, final String address, final String number,
                            final String distric, final String city, final String country, final String CEP, final String username,
                            final String password, String passwordConfirm, final String sexo, final DbExecuteWithReturn dbExecuteWithReturn){
-         if(name.isEmpty() || lastname.isEmpty() || CPF.isEmpty() || address.isEmpty() ||
+
+        if(name.isEmpty() || lastname.isEmpty() || CPF.isEmpty() || address.isEmpty() ||
                 number.isEmpty() || distric.isEmpty()|| city.isEmpty()|| country.isEmpty() ||
                 CEP.isEmpty()|| username.isEmpty()|| password.isEmpty() || passwordConfirm.isEmpty()||
                 sexo.isEmpty()){
             dbExecuteWithReturn.onReturn("Preencha os campos corretamente");
+            return ;
         }else if(!password.equals(passwordConfirm)){
             dbExecuteWithReturn.onReturn( "As senhas não conferem");
+            return ;
         }
 
         Users.checkedUserNameRegisted(new DbExecuteWithReturn() {
@@ -66,12 +69,14 @@ public class Login {
 
                 }else if((boolean)obj){
                     dbExecuteWithReturn.onReturn("Username já cadastrado");
+                    return ;
                 }else{
                     Users.checkedCPFRegisted(new DbExecuteWithReturn() {
                         @Override
                         public void onReturn(Object obj) {
                             if((boolean)obj){
                                 dbExecuteWithReturn.onReturn("CPF já cadastrado");
+                                return ;
                             }else{
                                 Users.createUser(new DbExecuteWithReturn() {
                                     @Override
@@ -79,6 +84,7 @@ public class Login {
                                         user = new User((String)obj,name,lastname,CPF,address,number,distric,city,country,CEP,username,password,null,null,sexo);
                                         loginListener.changeLoginStatus();
                                         dbExecuteWithReturn.onReturn("");
+                                        return ;
                                     }
                                 },name,lastname,CPF,address,number,distric,city,country,CEP,username,password,sexo);
                             }
@@ -98,6 +104,8 @@ public class Login {
         user = null;
         if(loginListener != null)
             loginListener.changeLoginStatus();
+
+
     }
 
 

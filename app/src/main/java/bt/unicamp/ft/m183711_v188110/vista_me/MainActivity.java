@@ -251,6 +251,8 @@ public class MainActivity extends AppCompatActivity
         myOrderButton.setVisible(login.isLogged());
         editData.setVisible(login.isLogged());
         loggoutButton.setVisible(login.isLogged());
+
+        BackToFirstFragment();
     }
 
     @Override
