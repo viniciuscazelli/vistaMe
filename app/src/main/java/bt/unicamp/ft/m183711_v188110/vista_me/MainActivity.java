@@ -188,7 +188,7 @@ public class MainActivity extends AppCompatActivity
             OpenFragment(registerFragment,"register",true);
         }else if (id == R.id.myOrders) {
             OrdersFragment ordersFragment = new OrdersFragment(this,login);
-            OpenFragment(ordersFragment,"register",true);
+            OpenFragment(ordersFragment,"myOrders",true);
         }else if (id == R.id.loggout){
             if(login != null)
             login.loggout();

@@ -31,7 +31,7 @@ public class Orders {
 
         final FirebaseFirestore db = FirebaseFirestore.getInstance();
 
-        db.collection("users").document(idUser).collection("orders").get()
+        db.collection("users").document(idUser).collection("orders").orderBy("date", Query.Direction.ASCENDING).get()
                 .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
                     @Override
                     public void onComplete(@NonNull Task<QuerySnapshot> task) {
