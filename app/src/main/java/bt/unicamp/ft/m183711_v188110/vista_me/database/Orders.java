@@ -163,13 +163,13 @@ public class Orders {
                         product.setValor(document.getDouble("valor"));
                         product.setMaxDivider(10);//Integer.parseInt(document.getString("maxDivider"))
                         product.setSexo(document.getString("sexo") == "masculino"? e_Sexo.masculino:e_Sexo.feminino);
-                        try{
-                            product.setFoto(ImageLoader.baixarImagem(document.getString("url")));
-                        }catch (Exception ex){
-
-                            String erro = ex.toString();
-                            erro  = "erro -> " + erro;
-                        }
+//                        try{
+//                            product.setFoto(ImageLoader.baixarImagem(document.getString("url")));
+//                        }catch (Exception ex){
+//
+//                            String erro = ex.toString();
+//                            erro  = "erro -> " + erro;
+//                        }
 
                         products.add(product);
                     }

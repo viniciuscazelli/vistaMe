@@ -9,6 +9,7 @@ public class Product {
     private String nome;
     private String descricao;
     private Bitmap foto ;
+    private int fotoId ;
     private String url;
     private double valor;
     private int maxDivider;
@@ -18,11 +19,11 @@ public class Product {
         this.id = id;
     }
 
-    public Product(String id, String nome, String descricao, Bitmap foto, double valor, int maxDivider, e_Sexo sexo) {
+    public Product(String id, String nome, String descricao, int fotoId, double valor, int maxDivider, e_Sexo sexo) {
         this.id = id;
         this.nome = nome;
         this.descricao = descricao;
-        this.foto = foto;
+        this.fotoId = fotoId;
         this.valor = valor;
         this.maxDivider = maxDivider;
         this.sexo = sexo;
@@ -94,5 +95,13 @@ public class Product {
 
     public void setUrl(String url) {
         this.url = url;
+    }
+
+    public int getFotoId() {
+        return fotoId;
+    }
+
+    public void setFotoId(int fotoId) {
+        this.fotoId = fotoId;
     }
 }

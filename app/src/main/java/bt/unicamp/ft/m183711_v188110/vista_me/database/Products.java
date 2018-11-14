@@ -41,13 +41,17 @@ public class Products {
                                 product.setSexo(document.getString("sexo") == "masculino"? e_Sexo.masculino:e_Sexo.feminino);
                                 product.setUrl(document.getString("url"));
 
-                                try{
-                                    product.setFoto(ImageLoader.baixarImagem(document.getString("url")));
-                                }catch (Exception ex){
+//                                try{
+//                                    product.setFoto(ImageLoader.baixarImagem(document.getString("url")));
+//                                }catch (Exception ex){
+//
+//                                    String erro = ex.toString();
+//                                    erro  = "erro -> " + erro;
+//                                }
 
-                                    String erro = ex.toString();
-                                    erro  = "erro -> " + erro;
-                                }
+
+                                ImageProducts imageProducts = new ImageProducts();
+                                product.setFotoId(imageProducts.getImageDrawableByIdProduct(document.getId()));
 
                                 callback.onReturn(product);
                             }
@@ -88,13 +92,15 @@ public class Products {
                                 product.setMaxDivider(10);//Integer.parseInt(document.getString("maxDivider"))
                                 product.setSexo(document.getString("sexo") == "masculino"? e_Sexo.masculino:e_Sexo.feminino);
                                 product.setUrl(document.getString("url"));
-                                try{
-                                    product.setFoto(ImageLoader.baixarImagem(document.getString("url")));
-                                }catch (Exception ex){
-
-                                    String erro = ex.toString();
-                                    erro  = "erro -> " + erro;
-                                }
+//                                try{
+//                                    product.setFoto(ImageLoader.baixarImagem(document.getString("url")));
+//                                }catch (Exception ex){
+//
+//                                    String erro = ex.toString();
+//                                    erro  = "erro -> " + erro;
+//                                }
+                                ImageProducts imageProducts = new ImageProducts();
+                                product.setFotoId(imageProducts.getImageDrawableByIdProduct(document.getId()));
 
                                 products.add(product);
                             }
