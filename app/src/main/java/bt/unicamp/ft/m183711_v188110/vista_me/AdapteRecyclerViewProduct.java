@@ -2,6 +2,7 @@ package bt.unicamp.ft.m183711_v188110.vista_me;
 
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -101,8 +102,7 @@ public class AdapteRecyclerViewProduct extends RecyclerView.Adapter {
             if(product.getFoto() == null)
                 System.out.print("foto em branco");
 
-            imageView.setImageBitmap(product.getFoto());
-            imageView.buildLayer();
+            imageView.setImageResource(product.getFotoId());
             primaryTextView.setText(product.getNome());
             dividerNumberTextView.setText(product.getMaxDivider()+"x");
             dividerValueTextView.setText(" R$ "+String.format( "%.2f", product.getDividerValue() ));
